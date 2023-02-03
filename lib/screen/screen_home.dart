@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/model_quiz.dart';
+import 'package:flutter_application_1/screen/screen_quiz.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -6,6 +8,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Quiz dummy data
+  // Start Quiz Now! 버튼을 누를 때 quiz api 호출 == quiz dummy data를 quiz_screen으로 넘겨줌
+  List<Quiz> quizzes = [
+    Quiz.fromMap({
+      'title': 'test',
+      'candidates': ['a', 'b', 'c', 'd'],
+      'answer': 0
+    }),
+    Quiz.fromMap({
+      'title': 'test',
+      'candidates': ['a', 'b', 'c', 'd'],
+      'answer': 0
+    }),
+    Quiz.fromMap({
+      'title': 'test',
+      'candidates': ['a', 'b', 'c', 'd'],
+      'answer': 0
+    }),
+  ];
   @override
   Widget build(BuildContext context) {
     // MediaQuery : 반응형 UI 를 만들기위해 기기의 정보 가져옴
@@ -75,7 +96,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(primary: Colors.deepPurple),
-                  onPressed: () {},
+                  onPressed: () {
+                    // 버튼 누르면 screen_quiz 띄우기
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            // quiz dummy data 넘겨주기
+                            builder: (context) => QuizScreen(
+                                  quizzes: quizzes,
+                                )));
+                  },
                 ),
               ),
             ),
