@@ -35,84 +35,93 @@ class _HomeScreenState extends State<HomeScreen> {
     double width = screenSize.width;
     double height = screenSize.height;
 
-    // SafeArea : 기기의 상단 notice bar 부분, 하단 영역을 침범하지 않는 안전한 영역 잡아주는 위젯
-    return SafeArea(
+    return WillPopScope(
+      onWillPop: () async => false,
+      // SafeArea : 기기의 상단 notice bar 부분, 하단 영역을 침범하지 않는 안전한 영역 잡아주는 위젯
+      child: SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-        title: Text('My Quiz App'),
-        backgroundColor: Colors.deepPurple,
-        // leading 비워두기 : 앱 바 좌측에 있는 버튼 지우기 효과. ex. 페이지 이동시 자동으로 생기는 뒤로가기 버튼 지우기
-        leading: Container(),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Center(
-            child: Image.asset(
-              'images/quiz.jpeg',
-              width: width * 0.8,
-            ),
+          appBar: AppBar(
+            title: Text('My Quiz App'),
+            backgroundColor: Colors.deepPurple,
+            // leading 비워두기 : 앱 바 좌측에 있는 버튼 지우기 효과. ex. 페이지 이동시 자동으로 생기는 뒤로가기 버튼 지우기
+            leading: Container(),
           ),
-          Padding(
-            padding: EdgeInsets.all(width * 0.024),
-          ),
-          Text(
-            'Flutter 퀴즈 앱',
-            style: TextStyle(
-              fontSize: width * 0.065,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            '퀴즈 풀기 전 안내 사항입니다\n꼼꼼히 읽고 퀴즈 풀기를 눌러주세요.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: width * 0.035,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(width * 0.048),
-          ),
-          _buildStep(width, '1. 랜덤으로 나오는 퀴즈 3개를 풀어보세요.'),
-          _buildStep(width, '2. 문제를 잘 읽고 정답을 고른 뒤\n다음 문제 버튼을 눌러주세요.'),
-          _buildStep(width, '3. 만점을 향해 도전해보세요.'),
-          Padding(
-            padding: EdgeInsets.all(width * 0.048),
-          ),
-          Container(
-            padding: EdgeInsets.only(bottom: width * 0.036),
-            child: Center(
-              child: ButtonTheme(
-                minWidth: width * 0.8,
-                height: height * 0.05,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ElevatedButton(
-                  child: Text(
-                    'Strat Quiz Now!',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(primary: Colors.deepPurple),
-                  onPressed: () {
-                    // 버튼 누르면 screen_quiz 띄우기
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            // quiz dummy data 넘겨주기
-                            builder: (context) => QuizScreen(
-                                  quizzes: quizzes,
-                                )));
-                  },
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: Image.asset(
+                  'images/quiz.jpeg',
+                  width: width * 0.8,
                 ),
               ),
-            ),
-          )
-        ],
+              Padding(
+                padding: EdgeInsets.all(width * 0.024),
+              ),
+              Text(
+                'Flutter 퀴즈 앱',
+                style: TextStyle(
+                  fontSize: width * 0.065,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                '퀴즈 풀기 전 안내 사항입니다\n꼼꼼히 읽고 퀴즈 풀기를 눌러주세요.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: width * 0.035,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(width * 0.048),
+              ),
+              _buildStep(width, '1. 랜덤으로 나오는 퀴즈 3개를 풀어보세요.'),
+              _buildStep(width, '2. 문제를 잘 읽고 정답을 고른 뒤\n다음 문제 버튼을 눌러주세요.'),
+              _buildStep(width, '3. 만점을 향해 도전해보세요.'),
+              Padding(
+                padding: EdgeInsets.all(width * 0.048),
+              ),
+              Container(
+                padding: EdgeInsets.only(bottom: width * 0.036),
+                child: Center(
+                  child: ButtonTheme(
+                    minWidth: width * 0.8,
+                    height: height * 0.05,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ElevatedButton(
+                      child: Text(
+                        'Strat Quiz Now!',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      style:
+                          ElevatedButton.styleFrom(primary: Colors.deepPurple),
+                      onPressed: () {
+                        // 버튼 누르면 screen_quiz 띄우기
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            // quiz dummy data 넘겨주기
+                            builder: (context) => QuizScreen(
+                              quizzes: quizzes,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 
   Widget _buildStep(double width, String title) {
